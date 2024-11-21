@@ -28,9 +28,18 @@ def add_order():
     conn.close()
     customer_name_entry.delete(0, tk.END)
     order_details_entry.delete(0, tk.END)
+    view_orders()
 
-#    view_orders()
-
+def view_orders():
+    for i in tree.get_children():
+        tree.delete(i)
+    conn = sqlite3.connect('business_orders.db')
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM orders")
+    rows = cur.fetchall()
+    for row in rows:
+        tree.insert("", tk.END, values=row)
+    conn.close()
 
 
 app = tk.Tk()
@@ -56,4 +65,5 @@ for column in columns:
 tree.pack()
 
 init_db()
+view_orders()
 app.mainloop()
