@@ -3,6 +3,19 @@ from tkinter import ttk
 
 import  sqlite3
 
+def init_db():
+    conn = sqlite3.connect('business_order.db')
+    cur = conn.cursor()
+    cur.execute("""  
+    CREATE TABLE IF NOT EXISTS orders (
+    id INTEGER PRIMARY KEY,
+    customer_name TEXT NOT NULL,
+    order_details TEXT NOT NULL,
+    status TEXT NOT NULL)
+    """)
+    conn.commit()
+    conn.close()
+
 app = tk.Tk()
 app.title("Система управления заказами")
 
@@ -25,4 +38,5 @@ for column in columns:
     tree.heading(column,text=column)
 tree.pack()
 
+init_db()
 app.mainloop()
